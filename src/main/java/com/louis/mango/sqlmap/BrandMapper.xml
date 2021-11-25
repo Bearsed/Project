@@ -9,4 +9,14 @@
         where id = #{id,jdbcType=BIGINT}
     </select>
 
+    <select id="selectPIdIn" resultType="com.louis.mango.model.Brand">
+        SELECT
+        id, name
+        from brand
+        WHERE id IN
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id,jdbcType=BIGINT}
+        </foreach>
+    </select>
+    
 </mapper>
