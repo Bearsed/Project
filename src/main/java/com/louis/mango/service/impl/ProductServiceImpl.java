@@ -49,13 +49,29 @@ public class ProductServiceImpl implements ProductService {
             pageNum = (pageNum - 1) * pageSize;
         }
         List<Product> list = productMapper.selectByPage(pageNum,pageSize);
+        List<Long> pids = new ArrayList<>();
+        List<Long> bids = new ArrayList<>();
         for (Product product : list) {
-            Brand brand = brandMapper.selectByPrimaryKey(product.getBrandId());
-            product.setBrandName(brand.getName());
+            pids.add(product.getId());
+            bids.add(product.getBrandId());
         }
+
+        List<Product> product = productMapper.selectPIdIn(pids);
+
+        List<Brand> brands = brandMapper.selectPIdIn(bids);
+
+
+        for (Product pt : product) {
+            for (Brand brand : brands) {
+                if (pt.getBrandId() == brand.getId()) {
+                    pt.setBrandName(brand.getName());
+                }
+            }
+        }
+
         Long count = productMapper.selectCount();
         RespBean bean = new RespBean();
-        bean.setData(list);
+        bean.setData(product);
         bean.setTotal(count);
         return bean;
     }
