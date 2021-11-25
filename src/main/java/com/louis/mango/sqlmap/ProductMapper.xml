@@ -43,4 +43,13 @@
     <select id="selectCount" resultType="java.lang.Long">
         select count(*) from product
     </select>
+    <select id="selectPIdIn" resultMap="BaseResultMap">
+        SELECT
+        id, name, brand_id
+        from product
+        WHERE id IN
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id,jdbcType=BIGINT}
+        </foreach>
+    </select>
 </mapper>
