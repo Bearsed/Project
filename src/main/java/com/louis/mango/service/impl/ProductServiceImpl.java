@@ -32,7 +32,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product selectByPrimaryKey(Long id) {
-        return productMapper.selectByPrimaryKey(id);
+        Product product = productMapper.selectByPrimaryKey(id);
+        Brand brand = brandMapper.selectByPrimaryKey(product.getBrandId());
+        product.setBrandName(brand.getName());
+        return product;
     }
 
     @Override
