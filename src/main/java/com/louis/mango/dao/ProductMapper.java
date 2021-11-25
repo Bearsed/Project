@@ -17,4 +17,6 @@ public interface ProductMapper {
     List<Product> selectByPage(@Param("pageNum") Integer page, @Param("pageSize") Integer size);
 
     Long selectCount();
+    
+    List<Product> selectPIdIn(List<Long> longs);
 }
